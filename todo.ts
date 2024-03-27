@@ -25,6 +25,7 @@ function addTodo(task: string): void {
   const todos = getTodos();
   const id = todos.length > 0 ? todos[todos.length - 1].id + 1 : 1;
   todos.push({ id, task });
+  saveTodos(todos);
   console.log("added item: ", task);
 }
 
@@ -45,8 +46,7 @@ function cliError(): void {
 
 function cli(): void {
   const command = process.argv[2];
-  console.log(process.argv);
-  const options = process.argv.length ? process.argv.slice[3] : null;
+  const options = process.argv.slice(3);
 
   switch (command) {
     case "--help":
@@ -67,7 +67,7 @@ function cli(): void {
       break;
     case "remove":
       if (options.length === 1) {
-        removeTodo(options[0]);
+        removeTodo(parseInt(options[0]));
       } else {
         cliError();
       }
